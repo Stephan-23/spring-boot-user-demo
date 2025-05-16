@@ -33,5 +33,18 @@ public class FakeRepo implements FakeRepoInterface {
         verify(fakeRepo, times(1)).findUserById(id);
     }
 
+    @Test
+    void testGetUserNotFound() {
+        long id = 999L;
+        when(fakeRepo.findUserById(id)).thenThrow(new IllegalArgumentException("User with ID " + id + " not found"));
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.getUser(id);
+        });
+
+        assertEquals("User with ID " + id + " not found", exception.getMessage());
+        verify(fakeRepo, times(1)).findUserById(id);
+    }
+
 
 }
