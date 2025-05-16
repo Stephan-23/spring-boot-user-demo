@@ -46,5 +46,17 @@ public class FakeRepo implements FakeRepoInterface {
         verify(fakeRepo, times(1)).findUserById(id);
     }
 
+    @Test
+    void testRemoveUser() {
+        long id = 1L;
+        String name = "John";
+        when(fakeRepo.deleteUser(id)).thenReturn(name);
+
+        String result = userService.removeUser(id);
+
+        assertEquals(name, result);
+        verify(fakeRepo, times(1)).deleteUser(id);
+    }
+
 
 }
