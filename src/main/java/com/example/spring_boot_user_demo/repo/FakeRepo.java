@@ -21,5 +21,17 @@ public class FakeRepo implements FakeRepoInterface {
         return name;
     }
 
+    @Test
+    void testGetUser() {
+        long id = 1L;
+        String name = "John";
+        when(fakeRepo.findUserById(id)).thenReturn(name);
+
+        String result = userService.getUser(id);
+
+        assertEquals(name, result);
+        verify(fakeRepo, times(1)).findUserById(id);
+    }
+
 
 }
