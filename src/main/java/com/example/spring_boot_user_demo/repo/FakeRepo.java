@@ -57,6 +57,17 @@ public class FakeRepo implements FakeRepoInterface {
         assertEquals(name, result);
         verify(fakeRepo, times(1)).deleteUser(id);
     }
+    @Test
+    void testRemoveUserNotFound() {
+        long id = 999L;
+        when(fakeRepo.deleteUser(id)).thenThrow(new IllegalArgumentException("User with ID " + id + " not found"));
 
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.removeUser(id);
+        });
+
+        assertEquals("User with ID " + id + " not found", exception.getMessage());
+        verify(fakeRepo, times(1)).deleteUser(id);
+    }
 
 }
